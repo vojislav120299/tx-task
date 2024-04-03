@@ -1,0 +1,10 @@
+<mat-toolbar color="primary">
+    <span>Tx task</span>
+    <div class="margin-auto flex nav-gap">
+        <button mat-button routerLink="/jobAds" [routerLinkActiveOptions]="{exact: true}"
+            routerLinkActive="active-link">Job Ads</button>
+        <button mat-button routerLink="/invoices" [routerLinkActiveOptions]="{exact: true}"
+            routerLinkActive="active-link">Invoices</button>
+    </div>
+</mat-toolbar>
+<router-outlet></router-outlet>

@@ -1,0 +1,76 @@
+@if (vm$ | async; as vm) {
+    <form class="flex-form" [formGroup]="filtersForm">
+        <mat-form-field appearance="outline">
+            <input matInput formControlName="title" placeholder="Title">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <input matInput formControlName="description" placeholder="Description">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Status</mat-label>
+            <mat-select formControlName="status">
+                @for (status of statuses; track status) {
+                    <mat-option value="{{ status }}">{{ status }}</mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <input matInput formControlName="skill" placeholder="Skill">
+        </mat-form-field>
+        <div class="filter-buttons">
+            <button mat-raised-button color="primary" (click)="applyFilters()">Apply</button>
+            <button mat-raised-button color="warn" (click)="resetFilters()">Reset</button>
+        </div>
+    </form>
+    <div class="create-job-button-wrapper">
+        <button class="margin-auto" mat-raised-button color="primary" (click)="openAddJobDialog()">Create Job Ad +</button>
+    </div>
+    @if (vm.loading) {
+        <mat-spinner class="margin-auto"></mat-spinner>
+    }
+    @else {
+        @if (vm.error) {
+            <div class="text-center">There was an error loading the jobs</div>
+        }
+        @else {
+            @if (vm.jobs) {
+                <table mat-table [dataSource]="vm.jobs" class="table">
+                    <ng-container matColumnDef="title">
+                        <th mat-header-cell *matHeaderCellDef> Title </th>
+                        <td mat-cell *matCellDef="let element"> {{ element.title }} </td>
+                    </ng-container>
+        
+                    <ng-container matColumnDef="description">
+                        <th mat-header-cell *matHeaderCellDef> Description </th>
+                        <td mat-cell *matCellDef="let element"> {{ element.description }} </td>
+                    </ng-container>
+        
+                    <ng-container matColumnDef="skills">
+                        <th mat-header-cell *matHeaderCellDef> Skills </th>
+                        <td mat-cell *matCellDef="let element">
+                            @if (element.skills && element.skills.length > 0) {
+                                <span>{{ element.skills.join(', ') }}</span>
+                            }
+                        </td>
+                    </ng-container>
+        
+                    <ng-container matColumnDef="status">
+                        <th mat-header-cell *matHeaderCellDef> Status </th>
+                        <td mat-cell *matCellDef="let element"> {{ element.status }} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="actions">
+                        <th mat-header-cell *matHeaderCellDef> Actions </th>
+                        <td mat-cell *matCellDef="let element" class="margin-auto">
+                            <button (click)="openAddJobDialog(true, element)" mat-raised-button color="primary">Edit</button>
+                            <button (click)="deleteJob(element.id)" mat-raised-button color="warn">Delete</button>
+                        </td>
+                    </ng-container>
+                    
+                    <tr mat-header-row *matHeaderRowDef="columns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: columns;"></tr>
+                </table>
+            }
+        }
+    }
+}

@@ -1,0 +1,65 @@
+/* You can add global styles to this file, and also import other style files */
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.flex-form {
+  display: flex;
+  gap: 1rem;
+  margin: 1rem;
+}
+
+.flex-form mat-form-field {
+  flex: 1;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.filter-buttons {
+  margin-bottom: auto;
+}
+
+.create-job-button-wrapper {
+  display: flex;
+  justify-content: center;
+  margin: 1rem;
+}
+
+.margin-auto {
+  margin: auto;
+}
+
+.grid {
+  display: grid;
+}
+
+.flex {
+  display: flex;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.nav-gap {
+  gap: 2rem;
+}
+
+@media (max-width: 768px) {
+  .flex-form {
+    display: grid;
+  }
+  .table {
+    display: block;
+    overflow: auto;
+    padding-bottom: 2rem;
+  }
+}

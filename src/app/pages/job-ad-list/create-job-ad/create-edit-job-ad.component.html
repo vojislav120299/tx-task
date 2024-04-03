@@ -1,0 +1,47 @@
+<h2 mat-dialog-title>Add Job Ad</h2>
+<mat-dialog-content class="mat-typography">
+    <form [formGroup]="createJobAdForm">
+        <mat-form-field class="full-width" appearance="outline">
+            <input matInput formControlName="title" placeholder="Title">
+            @if (title?.hasError('required') && title?.touched) {
+                <mat-error>Title is required</mat-error>
+            }
+        </mat-form-field>
+        <mat-form-field class="full-width" appearance="outline">
+            <input matInput formControlName="description" placeholder="Description">
+            @if (description?.hasError('required') && description?.touched) {
+                <mat-error>Description is required</mat-error>
+            }
+        </mat-form-field>
+        <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Status</mat-label>
+            <mat-select formControlName="status">
+                @for (status of statuses; track status) {
+                    <mat-option value="{{ status }}">{{ status }}</mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
+        <div class="full-width grid" formArrayName="skills">
+            @for (skill of skills.controls; track skill; let i = $index) {
+                @if (skill.valid && i !== 0) {
+                    <button mat-button color="warn" (click)="removeSkillInput(i)">Remove</button>
+                }
+                <div class="flex">
+                    <mat-form-field class="full-width" appearance="outline">
+                        <input matInput [formControlName]="i" placeholder="Skill">
+                        @if (skills.at(i).hasError('required') && skills.at(i).touched) {
+                            <mat-error>Skill is required</mat-error>
+                        }
+                    </mat-form-field>
+                </div>
+            }
+            @if (skills.valid) {
+                <button mat-button (click)="addNewSkillInput()">Add New Skill + </button>
+            }
+        </div>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button (click)="submit()" mat-button [disabled]="!createJobAdForm.valid" cdkFocusInitial>Save</button>
+</mat-dialog-actions>
